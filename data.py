@@ -1,14 +1,15 @@
 import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
-from functools import lru_cache
+import streamlit as st
 
 
-@lru_cache(maxsize=None)
+@st.cache_data(ttl=3600)
 def download_stock_data(tickers, start_date, end_date):
     """
     Download stock data from yfinance for given tickers and date range.
     Returns a DataFrame with dates as rows and tickers as columns.
+    Cached for 1 hour.
     """
     data = yf.download(tickers, start=start_date, end=end_date, auto_adjust=True)
     if 'Close' in data:
